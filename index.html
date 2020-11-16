@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Three JS Example</title>
+    <script type="text/javascript" src="libs/three.js"></script>
+    <script type="text/javascript" src="libs/jquery-1.9.0.js"></script>
+    <script type="text/javascript" src="libs/OrbitControls.js"></script>
+    
+    <script type="text/javascript" src="libs/stats.js"></script>
+    <script type="text/javascript" src="libs/dat.gui.js"></script>
+    <style>
+        body{
+            /* set margin to 0 and overflow to hidden, to go fullscreen */
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+  </head>
+  <body>
+
+    <div id="WebGL-output">
+    </div>
+    <script type="text/javascript">
+
+      // once everything is loaded, we run our Three.js stuff.
+     
+
+    // once everything is loaded, we run our Three.js stuff.
+    $(function () {
+      
+      class metalo_construkcija{
+        static group;
+        static single_geometry;
+        static single_material;
+        static single;
+        static cube_geometry;
+        static cube_mesh;
+        static cilinder_geometry1;
+        static cilinder_geometry2;
+        static cilinder_mesh1;
+        static cilinder_mesh2;
+
+        constructor(){
+          this.cilinder_geometry1 = new THREE.CylinderGeometry(1, 1, 5, 25);
+          this.cilinder_geometry2 = new THREE.CylinderGeometry(0.8, 0.8, 5, 25);
+          this.cube_geometry = new THREE.CubeGeometry(2, 1.1, 1);
+          this.single_material = new THREE.MeshBasicMaterial ({color: 0x0000ff});
+          this.cube_mesh = new THREE.Mesh(this.cube_geometry, new THREE.MeshBasicMaterial ({color: 0xff00ff}));
+          this.cilinder_mesh1 = new THREE.Mesh(this.cilinder_geometry1, this.single_material);
+          this.cilinder_mesh2 = new THREE.Mesh(this.cilinder_geometry2);
+          this.group = new THREE.Group();
+          this.cube_mesh.position.set(1.7,1.85,0);
+          this.cilinder_mesh2.position.set(3.2,3.75, 0);
+          this.group.add(this.cube_mesh);
+          this.group.add(this.cilinder_mesh1);
+          this.group.add(this.cilinder_mesh2);
+         
+        }
+        set_position()
+        
+     
+
+        // static x;
+        // static y;
+        // static z;
+        // static cube_geometry;
+        // static cube_material;
+        // static cube;
+        // static cilinder_geometry1;
+        // static cilinder_material1;
+        // static cilinder_geometry2;
+        // static cilinder_material2;
+        // static cilinder1;
+        // static cilinder2;
+        // constructor(witdh, lenght){
+        // this.cilinder_geometry1 = new THREE.CylinderGeometry(1, 1, 5, 25);
+        // this.cilinder_material1 = new THREE.MeshBasicMaterial ({color: 0x0000ff, wireframe: true});
+        // this.cilinder_geometry2 = new THREE.CylinderGeometry(0.8, 0.8, 5, 25);
+        // this.cilinder_material2 = new THREE.MeshBasicMaterial ({color: 0x00ff00, wireframe: true});
+        // this.cube_geometry = new THREE.CubeGeometry(2, 1.1, 1);
+        // this.cube_material = new THREE.MeshBasicMaterial ({color: 0xff0000, wireframe: true});
+        // this.cilinder1 = new THREE.Mesh( this.cilinder_geometry1, this.cilinder_material1);
+        // this.cilinder2 = new THREE.Mesh( this.cilinder_geometry2, this.cilinder_material2);
+        // this.cube = new THREE.Mesh( this.cube_geometry, this.cube_material);
+        // }
+        // setLocation(x, y, z){
+        //   this.x = x;
+        //   this.y = y;
+        //   this.z = z;
+        //   this.cilinder1.position = {x,y,z};
+        //   this.cube.position.x=this.cilinder1.position.x-1.7;
+        //   this.cube.position.y=this.cilinder1.position.y+1.85;
+        //   this.cube.position.z=z;
+
+        //   this.cilinder2.position.x= this.cube.position.x-1.5;
+        //   this.cilinder2.position.y= this.cube.position.y+1.9;
+        //   this.cilinder2.position.z= z;
+        // }
+        // rotate(deg){
+        //   this.cube.rotation.y+=deg*Math.PI/180;
+        //   if (this.cube.rotation.y*180/Math.PI > 360){
+        //     this.cube.rotation.y = (this.cube.rotation.y*180/Math.PI - 360)*Math.PI/180;
+        //   }
+        //   var temp = Math.sin((deg/2)*(Math.PI/180)) * 1.7 * 2;
+        //   var newX = Math.sin((deg/2)*(Math.PI/180)) * temp;
+        //   var newZ = Math.sqrt(Math.pow(temp, 2) - Math.pow(newX, 2));
+        //   var curr_y_deg = this.cube.rotation.y*180/Math.PI % 360 
+        //   if (curr_y_deg >= 0 && curr_y_deg < 90){
+        //     this.cube.position.x += newZ;
+        //     this.cube.position.z += newX;
+        //     //console.log(Math.sqrt(Math.pow( this.cilinder1.position.x - this.cube.position.x),2)+(Math.pow( this.cilinder1.position.z - this.cube.position.z ),2));
+        //   }
+        //   if (curr_y_deg > 90 && curr_y_deg < 180){
+        //     this.cube.position.x += newZ;
+        //     this.cube.position.z -= newX;
+        //   }
+        //   if (curr_y_deg > 180 && curr_y_deg < 270){
+        //     this.cube.position.x -= newZ;
+        //     this.cube.position.z -= newX;
+        //   }
+        //   if (curr_y_deg > 270 && curr_y_deg < 360){
+        //     this.cube.position.x -= newZ;
+        //     this.cube.position.z += newX;
+        //   }
+        // }
+
+        
+      }
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera( 
+          45, 
+          window.innerWidth / window.innerHeight, 
+          0.1, 
+          1000 );
+
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setClearColor(0xEEEEEE);
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      var controls = new THREE.OrbitControls( camera, renderer.domElement );
+      let apskritimas = new metalo_construkcija();
+
+      scene.add(apskritimas.group);
+      // scene.add(apskritimas.cube);
+      // scene.add(apskritimas.cilinder1);
+      // scene.add(apskritimas.cilinder2);
+      camera.position.z = 20;
+      camera.rotat
+      function animate(){
+        requestAnimationFrame(animate);
+        apskritimas.group.rotation.y+=0.01;
+        controls.update();
+        renderer.render(scene, camera);
+      }
+
+      $("#WebGL-output").append(renderer.domElement);
+      animate();
+  });
+
+
+
+
+  </script>
+  </body>
+</html>
