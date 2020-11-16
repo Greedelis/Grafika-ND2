@@ -70,32 +70,44 @@
 
       var renderer = new THREE.WebGLRenderer();
       renderer.setClearColor(0xEEEEEE);
+      const datGui  = new dat.GUI({ autoPlace: true });
+  
+      datGui.domElement.id = 'gui' 
       renderer.setSize( window.innerWidth, window.innerHeight );
       var controls = new THREE.OrbitControls( camera, renderer.domElement );
-      let apskritimas = new metalo_construkcija();
       let dalys = [];
-      let deg = 90;
-      let step_count = 10;
-      for(i = 0; i < step_count; i++){
-        dalys.push(new metalo_construkcija());
-        dalys[i].group.rotation.y = (deg/(step_count-1)) * i * Math.PI/180;
-        scene.add(dalys[i].group);
-      } 
-      for(i = 1; i < step_count; i++){
-        let vec = dalys[i-1].cilinder_mesh2.getWorldPosition();
-        dalys[i].group.position.set(vec.x,vec.y+1,vec.z);
-      } 
+      var params = new function(){
+        this.deg = 180;
+        this.step_count = 10;
+      }
+      init();
+      datGui.add(params, "step_count", 2, 40);
+      datGui.add(params, "deg", 0, 360).onChange(init());
       camera.position.z = 20;
       camera.rotat
       function animate(){
         requestAnimationFrame(animate);
-        apskritimas.group.rotation.y+=0.01;
+        let vec = new THREE.Vector3();
+        dalys[0].group.rotation.y = 0;
+        for(i = 1; i < params.step_count; i++){
+          dalys[i].group.rotation.y = (params.deg/(params.step_count-2)) * i * Math.PI/180;
+          dalys[i-1].cilinder_mesh2.getWorldPosition(vec);
+          dalys[i].group.position.set(vec.x,vec.y+1,vec.z);
+        } 
         controls.update();
         renderer.render(scene, camera);
       }
 
       $("#WebGL-output").append(renderer.domElement);
       animate();
+
+      function init(){
+        dalys = [];
+        for(i = 0; i < params.step_count; i++){
+          dalys.push(new metalo_construkcija());
+          scene.add(dalys[i].group);
+        } 
+      }
   });
 
 
