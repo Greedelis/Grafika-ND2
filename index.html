@@ -56,75 +56,10 @@
           this.group.add(this.cilinder_mesh2);
          
         }
-        set_position()
-        
-     
-
-        // static x;
-        // static y;
-        // static z;
-        // static cube_geometry;
-        // static cube_material;
-        // static cube;
-        // static cilinder_geometry1;
-        // static cilinder_material1;
-        // static cilinder_geometry2;
-        // static cilinder_material2;
-        // static cilinder1;
-        // static cilinder2;
-        // constructor(witdh, lenght){
-        // this.cilinder_geometry1 = new THREE.CylinderGeometry(1, 1, 5, 25);
-        // this.cilinder_material1 = new THREE.MeshBasicMaterial ({color: 0x0000ff, wireframe: true});
-        // this.cilinder_geometry2 = new THREE.CylinderGeometry(0.8, 0.8, 5, 25);
-        // this.cilinder_material2 = new THREE.MeshBasicMaterial ({color: 0x00ff00, wireframe: true});
-        // this.cube_geometry = new THREE.CubeGeometry(2, 1.1, 1);
-        // this.cube_material = new THREE.MeshBasicMaterial ({color: 0xff0000, wireframe: true});
-        // this.cilinder1 = new THREE.Mesh( this.cilinder_geometry1, this.cilinder_material1);
-        // this.cilinder2 = new THREE.Mesh( this.cilinder_geometry2, this.cilinder_material2);
-        // this.cube = new THREE.Mesh( this.cube_geometry, this.cube_material);
-        // }
-        // setLocation(x, y, z){
-        //   this.x = x;
-        //   this.y = y;
-        //   this.z = z;
-        //   this.cilinder1.position = {x,y,z};
-        //   this.cube.position.x=this.cilinder1.position.x-1.7;
-        //   this.cube.position.y=this.cilinder1.position.y+1.85;
-        //   this.cube.position.z=z;
-
-        //   this.cilinder2.position.x= this.cube.position.x-1.5;
-        //   this.cilinder2.position.y= this.cube.position.y+1.9;
-        //   this.cilinder2.position.z= z;
-        // }
-        // rotate(deg){
-        //   this.cube.rotation.y+=deg*Math.PI/180;
-        //   if (this.cube.rotation.y*180/Math.PI > 360){
-        //     this.cube.rotation.y = (this.cube.rotation.y*180/Math.PI - 360)*Math.PI/180;
-        //   }
-        //   var temp = Math.sin((deg/2)*(Math.PI/180)) * 1.7 * 2;
-        //   var newX = Math.sin((deg/2)*(Math.PI/180)) * temp;
-        //   var newZ = Math.sqrt(Math.pow(temp, 2) - Math.pow(newX, 2));
-        //   var curr_y_deg = this.cube.rotation.y*180/Math.PI % 360 
-        //   if (curr_y_deg >= 0 && curr_y_deg < 90){
-        //     this.cube.position.x += newZ;
-        //     this.cube.position.z += newX;
-        //     //console.log(Math.sqrt(Math.pow( this.cilinder1.position.x - this.cube.position.x),2)+(Math.pow( this.cilinder1.position.z - this.cube.position.z ),2));
-        //   }
-        //   if (curr_y_deg > 90 && curr_y_deg < 180){
-        //     this.cube.position.x += newZ;
-        //     this.cube.position.z -= newX;
-        //   }
-        //   if (curr_y_deg > 180 && curr_y_deg < 270){
-        //     this.cube.position.x -= newZ;
-        //     this.cube.position.z -= newX;
-        //   }
-        //   if (curr_y_deg > 270 && curr_y_deg < 360){
-        //     this.cube.position.x -= newZ;
-        //     this.cube.position.z += newX;
-        //   }
-        // }
-
-        
+        set_position(x, y, z){
+          this.group.position.set(x,y,z);
+        }
+       
       }
       var scene = new THREE.Scene();
       var camera = new THREE.PerspectiveCamera( 
@@ -138,11 +73,18 @@
       renderer.setSize( window.innerWidth, window.innerHeight );
       var controls = new THREE.OrbitControls( camera, renderer.domElement );
       let apskritimas = new metalo_construkcija();
-
-      scene.add(apskritimas.group);
-      // scene.add(apskritimas.cube);
-      // scene.add(apskritimas.cilinder1);
-      // scene.add(apskritimas.cilinder2);
+      let dalys = [];
+      let deg = 90;
+      let step_count = 10;
+      for(i = 0; i < step_count; i++){
+        dalys.push(new metalo_construkcija());
+        dalys[i].group.rotation.y = (deg/(step_count-1)) * i * Math.PI/180;
+        scene.add(dalys[i].group);
+      } 
+      for(i = 1; i < step_count; i++){
+        let vec = dalys[i-1].cilinder_mesh2.getWorldPosition();
+        dalys[i].group.position.set(vec.x,vec.y+1,vec.z);
+      } 
       camera.position.z = 20;
       camera.rotat
       function animate(){
