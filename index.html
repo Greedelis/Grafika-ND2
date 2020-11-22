@@ -173,7 +173,8 @@
       spotLight.position.set(0, 220, 0);
       spotLight.castShadow = true;
 
-      datGui.add(params, "step_count", 3, 40).onChange(function(){
+      datGui.add(params, "step_count", 3, 40).step(1).onChange(function(){
+        console.log(params.step_count);
         init();
       });
       datGui.add(params, "deg", -360, 360).onChange(function(){
@@ -199,9 +200,9 @@
         let vec = new THREE.Vector3();
         for(i = 0; i < params.step_count; i++){
           dalys.push(new metalo_construkcija(i, params.radius));
-          if(i == params.step_count-1){
+          if(i == Math.abs(params.step_count)-1){
             dalys[i].cilinder_mesh2.getWorldPosition(vec);
-            f2_mesh.position.set(vec.x+25,vec.y+1,vec.z);
+            f2_mesh.position.set(vec.x+23,vec.y+3,vec.z);
             dalys[i].group.add(f2_mesh);
           }
           scene.add(dalys[i].group);
@@ -228,7 +229,7 @@
         tube_mesh = new THREE.Mesh( tube_geometry, tube_material ); 
         scene.add(tube_mesh);
         scene.add(plane_mesh);
-        scene.add(f2_mesh);
+        //scene.add(f2_mesh);
         scene.add(spotLight);
         //scene.add( light );
       }
