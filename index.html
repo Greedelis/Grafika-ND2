@@ -157,9 +157,9 @@
       var f2_mesh = new THREE.Mesh(f2_geo, f2_mat);
       plane_mesh.position.y = -2.5;
       plane_mesh.rotation.x = -Math.PI/2;
-      plane_mesh.reciveShadow = true;
+      plane_mesh.receiveShadow = true;
       f2_mesh.rotation.x = -Math.PI/2;
-      f2_mesh.reciveShadow = true;
+      //f2_mesh.reciveShadow = true;
       f2_mesh.castShadow = true;
       const datGui  = new dat.GUI({ autoPlace: true });
       datGui.domElement.id = 'gui' 
@@ -227,6 +227,7 @@
         tube_geometry = new THREE.TubeGeometry( new THREE.CatmullRomCurve3(tube_path), 0, 1, 8, false);
         tube_material = new THREE.MeshPhongMaterial( { color: 'gray' });
         tube_mesh = new THREE.Mesh( tube_geometry, tube_material ); 
+        tube_mesh.castShadow = true;
         scene.add(tube_mesh);
         scene.add(plane_mesh);
         //scene.add(f2_mesh);
