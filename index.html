@@ -209,13 +209,13 @@
         } 
         
         dalys[0].group.rotation.y = 0;
-        //dalys[dalys.length-1].group.add(f2_mesh);
+        //dalys[dalys.length-1].group.add(f2_mesh); 
         for(i = 1; i < params.step_count; i++){
-          dalys[i].group.rotation.y = (params.deg/(params.step_count)) * i * Math.PI/180;
+          dalys[i].group.rotation.y = (params.deg/(params.step_count-1)) * i * Math.PI/180;
           dalys[i-1].cilinder_mesh2.getWorldPosition(vec);
           dalys[i].group.position.set(vec.x,vec.y+1,vec.z);
         }  
-        dalys[dalys.length-1].cilinder_mesh2.getWorldPosition(vec);
+        //dalys[dalys.length-1].cilinder_mesh2.getWorldPosition(vec);
 
         //f2_mesh.position.set(vec.x+25,vec.y+1,vec.z);
         //f2_mesh.rotation.z=((params.deg/params.step_count) * params.step_count * Math.PI/180 );
